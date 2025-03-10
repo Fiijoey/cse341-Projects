@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Fiijoey/cse341-Projects/issues"
   },
-  "homepage": "https://github.com/Fiijoey/cse341-Projects#readme"
+  "homepage": "https://github.com/Fiijoey/cse341-Projects#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }
