@@ -22,7 +22,68 @@ const getSingle = async (req, res) => {
   });
 };
 
+const createContact = async (req, res) => {
+  const newContact = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    favoriteColor: req.body.favoriteColor,
+    birthDate: req.body.birthdate,
+  };
+
+  const response = await mongodb
+    .getDatabase()
+    .db()
+    .collection("Contacts")
+    .insertOne(newContact);
+  if (response.acknowledged) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || "Error creating contact");
+  }
+};
+
+const updateContact = async (req, res) => {
+  const userId = new ObjectId(req.params.id);
+  const newContact = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    favoriteColor: req.body.favoriteColor,
+    birthDate: req.body.birthdate,
+  };
+
+  const response = await mongodb
+    .getDatabase()
+    .db()
+    .collection("Contacts")
+    .replaceOne({ _id: userId }, newContact);
+  if (response.modifiedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || "Error updating contact");
+  }
+};
+
+const deleteContact = async (req, res) => {
+  const userId = new ObjectId(req.params.id);
+
+  const response = await mongodb
+    .getDatabase()
+    .db()
+    .collection("Contacts")
+    .remove({ _id: userId }, true);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || "Error deleting contact");
+  }
+};
+
 module.exports = {
   getAll,
   getSingle,
+  createContact,
+  updateContact,
+  deleteContact,
 };
