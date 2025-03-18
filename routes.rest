@@ -35,7 +35,7 @@ Content-Type: application/json
     "firstName": "John",
     "lastName": "Doe",
     "email": "email@email.com",
-    "favoriteColor": "blue",
+    "favoriteColor": "gray",
     "birthday": "1990-01-01"
 }
 
