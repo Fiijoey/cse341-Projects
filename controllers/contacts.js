@@ -28,7 +28,7 @@ const createContact = async (req, res) => {
     lastName: req.body.lastName,
     email: req.body.email,
     favoriteColor: req.body.favoriteColor,
-    birthDate: req.body.birthdate,
+    birthday: req.body.birthday,
   };
 
   const response = await mongodb
@@ -50,7 +50,7 @@ const updateContact = async (req, res) => {
     lastName: req.body.lastName,
     email: req.body.email,
     favoriteColor: req.body.favoriteColor,
-    birthDate: req.body.birthdate,
+    birthday: req.body.birthday,
   };
 
   const response = await mongodb
