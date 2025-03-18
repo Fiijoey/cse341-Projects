@@ -5,10 +5,9 @@
     "description": "This is the documentation for the API",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-projects-kg0t.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
     "https"
   ],
   "paths": {
