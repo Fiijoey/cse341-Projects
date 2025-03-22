@@ -1,40 +1,44 @@
 const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
 
-const getAll = (req, res) => {
-  mongodb
-    .getDatabase()
-    .db()
-    .collection("Contacts")
-    .find()
-    .toArray((err, lists) => {
-      if (err) {
-        res.status(400).json({ message: err });
-      } else {
+const getAll = async (req, res) => {
+  try {
+    const contactsResult = await mongodb
+      .getDatabase()
+      .db()
+      .collection("Contacts")
+      .find();
+    contactsResult
+      .toArray()
+      .then((Contacts) => {
         res.setHeader("Content-Type", "application/json");
-        res.status(200).json(lists);
-      }
-    });
+        res.status(200).json(Contacts);
+      })
+      .catch((error) => {
+        res.status(500).json({ error: "Failed to retrieve contacts" });
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching contacts" });
+  }
 };
 
-const getSingle = (req, res) => {
+const getSingle = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(400).json("Invalid ID" );
+    res.status(400).json("Invalid ID");
   }
 
   const userId = new ObjectId(req.params.id);
-  mongodb
+  const contactResult = await mongodb
     .getDatabase()
     .db()
     .collection("Contacts")
-    .find({ _id: userId })
-    .toArray((err, result) => {
-      if (err) {
-        res.status(400).json({ message: err });
-      }
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).json(result[0]);
-    });
+    .find({ _id: userId });
+  contactResult.toArray().then((contact) => {
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json(contact[0]);
+  });
 };
 
 const createContact = async (req, res) => {
@@ -82,7 +86,7 @@ const updateContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(400).json("Invalid ID" );
+    res.status(400).json("Invalid ID");
   }
   const userId = new ObjectId(req.params.id);
   const response = await mongodb
