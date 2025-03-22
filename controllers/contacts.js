@@ -18,6 +18,10 @@ const getAll = (req, res) => {
 };
 
 const getSingle = (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Invalid ID" );
+  }
+
   const userId = new ObjectId(req.params.id);
   mongodb
     .getDatabase()
@@ -77,8 +81,10 @@ const updateContact = async (req, res) => {
 };
 
 const deleteContact = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Invalid ID" );
+  }
   const userId = new ObjectId(req.params.id);
-
   const response = await mongodb
     .getDatabase()
     .db()
